@@ -1,0 +1,22 @@
+{
+    "name": "dtl/gh-aggregator",
+    "description": "Github PR/Issue aggregator",
+    "require": {
+        "symfony/console": "2.2.x-dev",
+        "symfony/yaml": "2.2.x-dev",
+        "knplabs/github-api": "dev-master"
+    },
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "dantleech",
+            "email": "dan.t.leech@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": {
+            "": "src"
+        }
+    }
+}

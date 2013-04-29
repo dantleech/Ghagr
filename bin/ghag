@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+
+$vendorDir = __DIR__.'/../vendor';
+
+$file = $vendorDir.'/autoload.php';
+if (file_exists($file)) {
+    $autoload = require_once $file;
+} else {
+    die("Install dependencies before using this command.\n");
+}
+
+$cli = new \Symfony\Component\Console\Application('PHPCR Command Line Interface', '0.1');
+$cli->setCatchExceptions(true);
+$cli->addCommands(array(
+    new \DTL\GhAggregator\Command\AggregateCommand(),
+));
+$cli->run();
+

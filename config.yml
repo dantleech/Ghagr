@@ -1,0 +1,8 @@
+repositories:
+    symfony-cmf:
+        BlogBundle: ~
+        RoutingAutoBundle: ~
+        RoutingExtraBundle: ~
+    phpcr:
+        phpcr: ~
+        phpcr-utils: ~
