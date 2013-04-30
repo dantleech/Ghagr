@@ -1,6 +1,6 @@
 <?php
 
-namespace DTL\GhAggregator\Command;
+namespace DTL\Ghag\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
@@ -12,7 +12,7 @@ class AggregateCommand extends Command
 {
     public function configure()
     {
-        $this->setName('dtl:gh:aggregate');
+        $this->setName('ghag:ag');
         $this->addOption('config', 'c', InputOption::VALUE_REQUIRED);
         $this->addOption('as-xml', null, InputOption::VALUE_NONE);
     }
@@ -29,18 +29,16 @@ class AggregateCommand extends Command
         $config = Yaml::parse($config);
         $issues = array();
 
-        $aggregator = new \DTL\GhAggregator\Aggregator;
+        $aggregator = new \DTL\Ghag\Aggregator;
         $aggregator->setLoggerClosure(function ($message) use ($output) {
             $output->writeln($message);
         });
-        $dom = $aggregator->aggregate($config['repositories']);
 
+        $dom = $aggregator->aggregate($config['repositories']);
 
         $dom->preserveWhitespace = true;
         $dom->formatOutput = true;
-        $string = $dom->saveXml();
-        die($string);
-
+        $string = $dom->save('report/report.xml');
     }
 
     public function outputConsole($output)

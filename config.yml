@@ -2,7 +2,22 @@ repositories:
     symfony-cmf:
         BlogBundle: ~
         RoutingAutoBundle: ~
-        RoutingExtraBundle: ~
+        RoutingBundle: ~
+        Routing: ~
+        ContentBundle: ~
+        BlockBundle: ~
+        TreeBrowserBundle: ~
+        CreateBundle: ~
+        CoreBundle: ~
+        SimpleCmsBundle: ~
+        MenuBundle: ~
+        MediaBundle: ~
+        SearchBundle: ~
+        symfony-cmf-docs: ~
+        symfony-cmf: ~
+        symfony-cmf-standard: ~
     phpcr:
         phpcr: ~
         phpcr-utils: ~
+    doctrine:
+        phpcr-odm: ~

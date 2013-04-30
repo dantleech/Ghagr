@@ -1,6 +1,6 @@
 <?php
 
-namespace DTL\GhAggregator;
+namespace DTL\Ghag;
 
 use Github\Client;
 use Github\HttpClient\CachedHttpClient;
@@ -30,9 +30,10 @@ class Aggregator
             new CachedHttpClient(array('cache_dir' => '/tmp'))
         );
 
-        $dom = new \DOMDocument(1.0);
+        $dom = new \DOMDocument("1.0");
         $root = $dom->createElement('ghag');
         $root->setAttribute('date', date('c'));
+        $dom->appendChild($root);
 
         foreach ($repos as $username => $repoConfig) {
             foreach ($repoConfig as $repoName => $repoData) {
@@ -41,7 +42,7 @@ class Aggregator
                 $repoEl = $dom->createElement('repository');
                 $repoEl->setAttribute('username', $username);
                 $repoEl->setAttribute('name', $repoName);
-                $dom->appendChild($repoEl);
+                $root->appendChild($repoEl);
 
                 try {
                     $repoIssues = $this->gitIssues($username, $repoName);
@@ -55,7 +56,12 @@ class Aggregator
                     $this->populateEl($issueEl, $repoIssue);
                     $repoEl->appendChild($issueEl);
 
-                    $comments = $this->client->api('issue')->comments()->all($username, $repoName, $repoIssue['number']);
+                    try {
+                        $comments = $this->client->api('issue')->comments()->all($username, $repoName, $repoIssue['number']);
+                    } catch (RuntimeException $e) {
+                        $this->log('<error>Could not fetch comments: '.$e->getMessage());
+                    }
+
                     foreach ($comments as $comment) {
                         $commentEl = $dom->createElement('comment');
                         $this->populateEl($commentEl, $comment);
@@ -77,12 +83,13 @@ class Aggregator
     public function populateEl(\DOMElement $el, $array)
     {
         foreach ($array as $key => $value) {
-            if (is_string($value)) {
+            if (is_scalar($value)) {
                 $el->setAttribute($key, $value);
             } elseif (is_array($value) && in_array(
                 $key,
                 array(
                     'user', 
+                    'assignee',
                     'milestone',
                     'comments',
                 )

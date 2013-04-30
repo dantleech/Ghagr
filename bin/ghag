@@ -13,7 +13,7 @@ if (file_exists($file)) {
 $cli = new \Symfony\Component\Console\Application('PHPCR Command Line Interface', '0.1');
 $cli->setCatchExceptions(true);
 $cli->addCommands(array(
-    new \DTL\GhAggregator\Command\AggregateCommand(),
+    new \DTL\Ghag\Command\AggregateCommand(),
 ));
 $cli->run();
 

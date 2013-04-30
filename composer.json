@@ -4,7 +4,10 @@
     "require": {
         "symfony/console": "2.2.x-dev",
         "symfony/yaml": "2.2.x-dev",
-        "knplabs/github-api": "dev-master"
+        "symfony/debug": "2.3.x-dev",
+        "knplabs/github-api": "dev-master",
+        "silex/silex": "1.0.x-dev",
+        "twig/twig": "1.12.x-dev"
     },
     "license": "GPL",
     "authors": [
