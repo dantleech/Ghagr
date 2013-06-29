@@ -2,23 +2,40 @@ repositories:
     symfony-cmf:
         BlogBundle: ~
         RoutingAutoBundle: ~
-        RoutingBundle: ~
-        Routing: ~
-        ContentBundle: ~
-        BlockBundle: ~
-        TreeBrowserBundle: ~
+        RoutingBundle: 
+            group: "1.0"
+        Routing: 
+            group: "1.0"
+        ContentBundle: 
+            group: "1.0"
+        BlockBundle: 
+            group: "1.0"
+        TreeBrowserBundle: 
+            group: "1.0"
         CreateBundle: ~
-        CoreBundle: ~
-        SimpleCmsBundle: ~
-        MenuBundle: ~
-        MediaBundle: ~
+        CoreBundle: 
+            group: "1.0"
+        SimpleCmsBundle: 
+            group: "1.0"
+        MenuBundle: 
+            group: "1.0"
+        MediaBundle: 
+            group: "1.0"
+        symfony-cmf-docs: 
+            group: "1.0"
         SearchBundle: ~
-        symfony-cmf-docs: ~
         symfony-cmf: ~
         symfony-cmf-standard: ~
     phpcr:
-        phpcr: ~
-        phpcr-utils: ~
+        phpcr: 
+            group: "1.0"
+        phpcr-utils: 
+            group: "1.0"
     sonata-project:
-        SonataDoctrinePhpcrAdminBundle: ~
+        SonataDoctrinePhpcrAdminBundle:
+            group: "1.0"
         SonataMediaBundle: ~
+
+groups:
+    "1.0":
+        description: Group for Bundles included in CMF 1.0 Release - see <a href="https://github.com/symfony-cmf/symfony-cmf/wiki/Roadmap">roadmap</a>

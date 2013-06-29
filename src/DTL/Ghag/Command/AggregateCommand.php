@@ -12,7 +12,7 @@ class AggregateCommand extends Command
 {
     public function configure()
     {
-        $this->setName('ghag:ag');
+        $this->setName('ag');
         $this->addOption('config', 'c', InputOption::VALUE_REQUIRED);
         $this->addOption('as-xml', null, InputOption::VALUE_NONE);
     }
@@ -34,7 +34,17 @@ class AggregateCommand extends Command
             $output->writeln($message);
         });
 
-        $dom = $aggregator->aggregate($config['repositories']);
+        $root = $aggregator->aggregate($config['repositories']);
+        $dom = $root->ownerDocument;
+
+        if (isset($config['groups'])) {
+            foreach ($config['groups'] as $groupName => $groupData) {
+                $groupEl = $dom->createElement('group');
+                $groupEl->setAttribute('name', $groupName);
+                $groupEl->setAttribute('description', $groupData['description']);
+                $root->appendChild($groupEl);
+            }
+        }
 
         $dom->preserveWhitespace = true;
         $dom->formatOutput = true;

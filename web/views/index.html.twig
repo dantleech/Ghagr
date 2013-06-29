@@ -1,54 +1,31 @@
 {% extends "layout.html.twig" %}
 {% block content %}
-    <h2>Milestones</h2>
-    <table class="table">
-        <thead>
-            <th>Title</th>
-            <th>Nb. Open</th>
-            <th>Nb. Closed</th>
-        </thead>
-        <tbody>
-        {% for milestone in du.distinct(xp.query('.//milestone'), 'title') %}
+{% for i, group in xp.query('//group') %}
+{% endfor %}
+{% for group in xp.query('//group') %}
+    <h2>{{ group.attribute('name') }}</h2>
+    <div class="row">
+        <table class="span4" style="layout: fixed">
             <tr>
-                <td>{{ milestone.getAttribute('title') }}</td>
-                <td>{{ xp.evaluate('count(//issue[@state="open"][./milestone[@title="' ~ milestone.getAttribute('title') ~ '"]])') }}</td>
-                <td>{{ xp.evaluate('count(//issue[@state="closed"][./milestone[@title="' ~ milestone.getAttribute('title') ~ '"]])') }}</td>
+                <th><i class="icon-retweet"></i> PR's</th> 
+                <td>{{ xp.evaluate('count(//repository[@group="' ~ group.attribute('name') ~ '"]//issue[@state="open"]/pull_request[@html_url])') }}</td>
+                <th><i class="icon-warning-sign"></i> Issues</th> 
+                <td>{{ xp.evaluate('count(//repository[@group="' ~ group.attribute('name') ~ '"]//issue[@state="open"])') }}</td>
             </tr>
-        {% endfor %}
-    </table>
-    <h2>Issues</h2>
-        {% for i, repo in xp.query('//repository') %}
-        <div class="accordian" id="accordian_{{i}}">
-            <div class="accordian-group">
-                <div class="well container accordian-heading">
-                    <div class="row">
-                        <div style="font-size: 2em" class="span8">
-                            <a href="#issues{{i}}" class="accordian-toggle" data-toggle="collapse" data-parent="#accordian{{i}}"><i class="icon-plus"></i></a>
-                            <a href="https://github.com/{{ repo.getAttribute('username') }}/{{ repo.getAttribute('name') }}">{{ repo.getAttribute('username') }}/{{ repo.getAttribute('name') }}</a>
-                        </div>
-                        <table class="span4" style="layout: fixed">
-                            <tr>
-                                <td width="120px">
-                                    <img src="https://travis-ci.org/{{ repo.getAttribute('username') }}/{{ repo.getAttribute('name') }}.png"/>
-                                </td>
-                                <th><i class="icon-retweet"></i> PR's</th> 
-                                <td>{{ xp.evaluate('count(.//issue[@state="open"]/pull_request[@html_url])', repo) }}</td>
-                                <th><i class="icon-warning-sign"></i> Issues</th> 
-                                <td>{{ xp.evaluate('count(.//issue[@state="open"])', repo) }}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="accordian-body collapse in" id="issues{{i}}">
-                    {% include "repos/issues.html.twig" %}
-                </div>
-            </div>
-        </div>
-
-        {% endfor %}
+        </table>
+        <div class="span8">{{ group.attribute('description')|raw }}</div>
     </div>
-    <script type="text/javascript">
-        $('.collapse').collapse();
-    </script>
+    {% for i, repo in xp.query('//repository[@group="' ~ group.attribute('name') ~ '"]') %}
+        {% include "repos/repo.html.twig" %}
+    {% endfor %}
+{% endfor %}
+
+<h2>Not Grouped</h2>
+{% for i, repo in xp.query('//repository[not(@group)]') %}
+    {% include "repos/repo.html.twig" %}
+{% endfor %}
+
+<script type="text/javascript">
+    $('.collapse').collapse();
+</script>
 {% endblock %}

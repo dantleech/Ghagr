@@ -1,0 +1,19 @@
+    <div class="accordian" id="accordian_{{ repo.getAttribute('name') }}">
+        <div class="accordian-group">
+            <div class="well container accordian-heading">
+                <div class="row">
+                    <div style="font-size: 1.2em" class="span8">
+                        <a href="#issues{{ repo.getAttribute('name') }}" class="accordian-toggle" data-toggle="collapse" data-parent="#accordian{{i}}"><i class="icon-plus"></i></a>
+                        <a href="https://github.com/{{ repo.getAttribute('username') }}/{{ repo.getAttribute('name') }}">{{ repo.getAttribute('username') }}/{{ repo.getAttribute('name') }}</a>
+                    </div>
+
+                    {% include "repos/summary.html.twig" %}
+                </div>
+            </div>
+
+            <div class="accordian-body collapse in" id="issues{{ repo.getAttribute('name') }}">
+                {% include "repos/issues.html.twig" %}
+            </div>
+        </div>
+    </div>
+

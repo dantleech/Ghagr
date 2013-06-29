@@ -42,6 +42,12 @@ class Aggregator
                 $repoEl = $dom->createElement('repository');
                 $repoEl->setAttribute('username', $username);
                 $repoEl->setAttribute('name', $repoName);
+
+                if ($repoData) {
+                    if (isset($repoData['group'])) {
+                        $repoEl->setAttribute('group', (string) $repoData['group']);
+                    }
+                }
                 $root->appendChild($repoEl);
 
                 try {
@@ -71,7 +77,7 @@ class Aggregator
             }
         }
 
-        return $dom;
+        return $root;
     }
 
     public function gitIssues($username, $repoName)
@@ -92,6 +98,7 @@ class Aggregator
                     'assignee',
                     'milestone',
                     'comments',
+                    'pull_request',
                 )
             ) && is_string($key)) {
                 $childEl = $el->ownerDocument->createElement($key);

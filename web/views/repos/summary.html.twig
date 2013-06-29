@@ -1,0 +1,12 @@
+<table class="span4" style="layout: fixed">
+    <tr>
+        <td width="120px">
+            <a href="https://travis-ci.org/{{ repo.attribute('username') }}/{{ repo.attribute('name' ) }}"><img src="https://travis-ci.org/{{ repo.getAttribute('username') }}/{{ repo.getAttribute('name') }}.png"/></a>
+        </td>
+        <th><i class="icon-retweet"></i> <a href="https://github.com/{{ repo.attribute('username') ~ "/" ~ repo.attribute('name') }}/pulls">PR's</a></th> 
+        <td>{{ xp.evaluate('count(.//issue[@state="open"]/pull_request[@html_url])', repo) }}</td>
+        <th><i class="icon-warning-sign"></i> <a href="https://github.com/{{ repo.attribute('username') ~ "/" ~ repo.attribute('name') }}/issues">Issues</a></th> 
+        <td>{{ xp.evaluate('count(.//issue[@state="open"])', repo) }}</td>
+    </tr>
+</table>
+

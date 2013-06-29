@@ -17,7 +17,7 @@ class EventsCommand extends Command
 {
     public function configure()
     {
-        $this->setName('ghag:events');
+        $this->setName('events');
         $this->addArgument('org', InputArgument::REQUIRED);
         $this->addOption('type', null, InputOption::VALUE_REQUIRED);
     }

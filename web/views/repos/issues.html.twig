@@ -2,6 +2,7 @@
     <thead>
         <tr>
             <th>No.</th>
+            <td></td>
             <th>Title</th>
             <th>State</th>
             <th>Created By</th>
@@ -13,6 +14,13 @@
     {% for issue in du.sort(xp.query('.//issue', repo), 'updated_at') %}
         <tr>
             <td>{{ issue.getAttribute('number') }}</td>
+            <td>
+                {% if xp.evaluate('count(.//pull_request[@html_url])', issue) %}
+                  <i class="icon-retweet" title="Pull Request"></i>
+                {% else %}
+                  <i class="icon-warning-sign" title="Pull Request"></i>
+                {% endif %}
+            </td>
             <td><a href="{{ issue.getAttribute('html_url') }}">{{ issue.getAttribute('title') }}</a></td>
             <td>
                 {% set state = issue.getAttribute('state') %}
