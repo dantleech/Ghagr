@@ -17,58 +17,38 @@
         {% endfor %}
     </table>
     <h2>Issues</h2>
-        {% for repo in xp.query('//repository') %}
-                <h3>{{ repo.getAttribute('username') }}/{{ repo.getAttribute('name') }}</h3>
+        {% for i, repo in xp.query('//repository') %}
+        <div class="accordian" id="accordian_{{i}}">
+            <div class="accordian-group">
+                <div class="well container accordian-heading">
+                    <div class="row">
+                        <div style="font-size: 2em" class="span8">
+                            <a href="#issues{{i}}" class="accordian-toggle" data-toggle="collapse" data-parent="#accordian{{i}}"><i class="icon-plus"></i></a>
+                            <a href="https://github.com/{{ repo.getAttribute('username') }}/{{ repo.getAttribute('name') }}">{{ repo.getAttribute('username') }}/{{ repo.getAttribute('name') }}</a>
+                        </div>
+                        <table class="span4" style="layout: fixed">
+                            <tr>
+                                <td width="120px">
+                                    <img src="https://travis-ci.org/{{ repo.getAttribute('username') }}/{{ repo.getAttribute('name') }}.png"/>
+                                </td>
+                                <th><i class="icon-retweet"></i> PR's</th> 
+                                <td>{{ xp.evaluate('count(.//issue[@state="open"]/pull_request[@html_url])', repo) }}</td>
+                                <th><i class="icon-warning-sign"></i> Issues</th> 
+                                <td>{{ xp.evaluate('count(.//issue[@state="open"])', repo) }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Title</th>
-                            <th>State</th>
-                            <th>Created By</th>
-                            <th>Assigned To</th>
-                            <th>Milestone</th>
-                            <th>Comments</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for issue in du.sort(xp.query('.//issue', repo), 'updated_at') %}
-                        <tr>
-                            <td>{{ issue.getAttribute('number') }}</td>
-                            <td><a href="{{ issue.getAttribute('html_url') }}">{{ issue.getAttribute('title') }}</a></td>
-                            <td>
-                                {% set state = issue.getAttribute('state') %}
-                                <span class="label label-{{ state == 'open' ? 'success' : 'important' }}">{{ state }}</span>
-                            </td>
-                            <td>
-                                {% for user in xp.query('./user', issue) %}
-                                <a href="{{ user.getAttribute('html_url') }}"><img width="16" height="16" src="{{ user.getAttribute('avatar_url') }}" />{{ user.getAttribute('login') }}</a>
-                                {% else %}
-                                    N/A
-                                {% endfor %}
-                            </td>
-                            <td>
-                                {% for user in xp.query('./assignee', issue) %}
-                                <a href="{{ user.getAttribute('html_url') }}"><img width="16" height="16" src="{{ user.getAttribute('avatar_url') }}" />{{ user.getAttribute('login') }}</a>
-                                {% else %}
-                                    N/A
-                                {% endfor %}
-                            </td>
-                            <td>
-                                {% for milestone in xp.query('.//milestone', issue) %}
-                                    <a href="{{ milestone.getAttribute('url') }}">{{ milestone.getAttribute('title') }}</a>
-                                {% else %}
-                                    N/A
-                                {% endfor %}
-                            </td>
-                            <td>
-                                {{ xp.evaluate('count(.//comment)', issue) }}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                <div class="accordian-body collapse in" id="issues{{i}}">
+                    {% include "repos/issues.html.twig" %}
+                </div>
+            </div>
+        </div>
+
         {% endfor %}
     </div>
+    <script type="text/javascript">
+        $('.collapse').collapse();
+    </script>
 {% endblock %}

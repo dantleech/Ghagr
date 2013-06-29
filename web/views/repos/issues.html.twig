@@ -1,0 +1,46 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Title</th>
+            <th>State</th>
+            <th>Created By</th>
+            <th>Assigned To</th>
+            <th>Milestone</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for issue in du.sort(xp.query('.//issue', repo), 'updated_at') %}
+        <tr>
+            <td>{{ issue.getAttribute('number') }}</td>
+            <td><a href="{{ issue.getAttribute('html_url') }}">{{ issue.getAttribute('title') }}</a></td>
+            <td>
+                {% set state = issue.getAttribute('state') %}
+                <span class="label label-{{ state == 'open' ? 'success' : 'important' }}">{{ state }}</span>
+            </td>
+            <td>
+                {% for user in xp.query('./user', issue) %}
+                <a href="{{ user.getAttribute('html_url') }}"><img width="16" height="16" src="{{ user.getAttribute('avatar_url') }}" />{{ user.getAttribute('login') }}</a>
+                {% else %}
+                    N/A
+                {% endfor %}
+            </td>
+            <td>
+                {% for user in xp.query('./assignee', issue) %}
+                <a href="{{ user.getAttribute('html_url') }}"><img width="16" height="16" src="{{ user.getAttribute('avatar_url') }}" />{{ user.getAttribute('login') }}</a>
+                {% else %}
+                    N/A
+                {% endfor %}
+            </td>
+            <td>
+                {% for milestone in xp.query('.//milestone', issue) %}
+                    <a href="{{ milestone.getAttribute('url') }}">{{ milestone.getAttribute('title') }}</a>
+                {% else %}
+                    N/A
+                {% endfor %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
