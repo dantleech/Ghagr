@@ -56,17 +56,17 @@ class Aggregator
                     $this->populateEl($issueEl, $repoIssue);
                     $repoEl->appendChild($issueEl);
 
-                    try {
-                        $comments = $this->client->api('issue')->comments()->all($username, $repoName, $repoIssue['number']);
-                    } catch (RuntimeException $e) {
-                        $this->log('<error>Could not fetch comments: '.$e->getMessage());
-                    }
+                    # try {
+                    #     $comments = $this->client->api('issue')->comments()->all($username, $repoName, $repoIssue['number']);
+                    # } catch (RuntimeException $e) {
+                    #     $this->log('<error>Could not fetch comments: '.$e->getMessage());
+                    # }
 
-                    foreach ($comments as $comment) {
-                        $commentEl = $dom->createElement('comment');
-                        $this->populateEl($commentEl, $comment);
-                        $issueEl->appendChild($commentEl);
-                    }
+                    # foreach ($comments as $comment) {
+                    #     $commentEl = $dom->createElement('comment');
+                    #     $this->populateEl($commentEl, $comment);
+                    #     $issueEl->appendChild($commentEl);
+                    # }
                 }
             }
         }

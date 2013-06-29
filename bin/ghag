@@ -1,4 +1,4 @@
-#!/usr/bin/env php
+#!/opt/bin/php
 <?php
 
 $vendorDir = __DIR__.'/../vendor';

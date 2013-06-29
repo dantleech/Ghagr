@@ -25,9 +25,14 @@ $app->get('/', function () use ($app) {
         return "File ".$file." does not exist.";
     }
 
-    $xml = $dom->load($file);
+    $dom->load($file);
     $xpath = new \DOMXPath($dom);
     $domUtil = new \DTL\Ghag\DOMUtil;
+
+    if (isset($_GET['xml'])) {
+        $dom->formatOutput = true;
+        return $dom->saveXml();
+    }
 
     return $app['twig']->render('index.html.twig', array(
         'xp' => $xpath,

@@ -19,5 +19,6 @@ repositories:
     phpcr:
         phpcr: ~
         phpcr-utils: ~
-    doctrine:
-        phpcr-odm: ~
+    sonata-project:
+        SonataDoctrinePhpcrAdminBundle: ~
+        SonataMediaBundle: ~

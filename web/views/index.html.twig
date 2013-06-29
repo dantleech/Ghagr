@@ -36,21 +36,21 @@
                     {% for issue in du.sort(xp.query('.//issue', repo), 'updated_at') %}
                         <tr>
                             <td>{{ issue.getAttribute('number') }}</td>
-                            <td><a href="{{ issue.getAttribute('url') }}">{{ issue.getAttribute('title') }}</a></td>
+                            <td><a href="{{ issue.getAttribute('html_url') }}">{{ issue.getAttribute('title') }}</a></td>
                             <td>
                                 {% set state = issue.getAttribute('state') %}
                                 <span class="label label-{{ state == 'open' ? 'success' : 'important' }}">{{ state }}</span>
                             </td>
                             <td>
                                 {% for user in xp.query('./user', issue) %}
-                                <a href="{{ user.getAttribute('url') }}"><img width="16" height="16" src="{{ user.getAttribute('avatar_url') }}" />{{ user.getAttribute('login') }}</a>
+                                <a href="{{ user.getAttribute('html_url') }}"><img width="16" height="16" src="{{ user.getAttribute('avatar_url') }}" />{{ user.getAttribute('login') }}</a>
                                 {% else %}
                                     N/A
                                 {% endfor %}
                             </td>
                             <td>
                                 {% for user in xp.query('./assignee', issue) %}
-                                <a href="{{ user.getAttribute('url') }}"><img width="16" height="16" src="{{ user.getAttribute('avatar_url') }}" />{{ user.getAttribute('login') }}</a>
+                                <a href="{{ user.getAttribute('html_url') }}"><img width="16" height="16" src="{{ user.getAttribute('avatar_url') }}" />{{ user.getAttribute('login') }}</a>
                                 {% else %}
                                     N/A
                                 {% endfor %}
